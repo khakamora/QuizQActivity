@@ -9,6 +9,23 @@ public class TrueFalse {
     private boolean trueQuestion;
 
     public TrueFalse(int question, boolean trueQuestion){
+        this.question = question;
+        this.trueQuestion = trueQuestion;
+    }
 
+    public int getQuestion(){
+        return this.question;
+    }
+
+    public void setQuestion(int question){
+        this.question = question;
+    }
+
+    public boolean isTrueQuestion(){
+        return this.trueQuestion;
+    }
+
+    public void setTrueQuestion(boolean trueQuestion){
+        this.trueQuestion = trueQuestion;
     }
 }

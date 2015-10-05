@@ -10,17 +10,37 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
     private Button trueButton;
     private Button falseButton;
+    private Button nextButton;
+    private TextView questionTextView;
+
+    private TrueFalse[] questionBank = new TrueFalse[]{
+            new TrueFalse(R.string.question_oceans, true),
+            new TrueFalse(R.string.question_mideast, false),
+            new TrueFalse(R.string.question_africa, false),
+            new TrueFalse(R.string.question_americas, true),
+            new TrueFalse(R.string.question_asia, true),
+    };
+
+    private int currentIndex = 0;
+
+    private void updateQuestion(){
+        int question = questionBank[currentIndex].getQuestion();
+        questionTextView.setText(question);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        questionTextView = (TextView)findViewById(R.id.question_text_view);
 
         trueButton = (Button)findViewById(R.id.true_button);
         trueButton.setOnClickListener(new View.OnClickListener() {
@@ -39,7 +59,16 @@ public class MainActivity extends Activity {
 
             }
         });
+        nextButton = (Button)findViewById(R.id.next_button);
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentIndex = (currentIndex + 1) % questionBank.length;
+                updateQuestion();
+            }
+        });
 
+        updateQuestion();
 
     }
 
