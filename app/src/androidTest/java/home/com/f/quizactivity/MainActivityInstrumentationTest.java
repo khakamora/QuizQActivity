@@ -1,46 +1,47 @@
 package home.com.f.quizactivity;
 
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import android.app.Activity;
+import android.support.test.espresso.action.ViewActions;
+import android.support.test.espresso.matcher.ViewMatchers;
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.suitebuilder.annotation.LargeTest;
 import android.widget.TextView;
 
-import home.com.f.quizactivity.espressoreadyproject.MainActivity;
-
-
-import static android.test.ViewAsserts.assertOnScreen;
-import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
-import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 
 /**
  * Created by F on 06.10.2015.
  */
-public class MainActivityInstrumentationTest extends ActivityInstrumentationTestCase2<MainActivity>{
-    private MainActivity mMainActivity;
-    private TextView mHelloWorldTextView;
+@RunWith(AndroidJUnit4.class)
+@LargeTest
+public class MainActivityInstrumentationTest{
 
-    @SuppressWarnings( "deprecation" )
-    public MainActivityInstrumentationTest() {
-        super("com.dropsport.espressoreadyproject", MainActivity.class);
-    }
+    public static final String STRING_TO_BE_EXPECTED = "The Suez Canal connects the Red Sea and the Indian Ocean.";
 
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Rule
+    public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(
+            MainActivity.class);
 
-        mMainActivity = getActivity();
-        mHelloWorldTextView = (TextView) mMainActivity.findViewById(R.id.hello_world_text);
-    }
+    @Test
+    public void checkNextQuestion() {
+        //Press the button.
+        onView(withId(R.id.next_button)).perform(click());
 
-    public void testTextView() {
-        assertOnScreen(mMainActivity.getWindow().getDecorView(), mHelloWorldTextView);
-    }
-
-    public void testLabel() {
-        onView(withId(R.id.hello_world_text)).check(matches(withText("Hello world!")));
-    }
-
-    public void testFalseLabel() {
-        onView(withId(R.id.hello_world_text)).check(matches(withText("What a label!")));
+        // Check that the text was appeared.
+        onView(withId(R.id.question_text_view)).check(matches(withText(STRING_TO_BE_EXPECTED)));
     }
 }
