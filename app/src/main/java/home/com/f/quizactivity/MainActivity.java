@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,8 +18,10 @@ public class MainActivity extends Activity {
 
     private Button trueButton;
     private Button falseButton;
-    private Button nextButton;
+    private ImageButton nextButton;
     private TextView questionTextView;
+    private TextView nextQuestion;
+    private ImageButton prevButton;
 
     private TrueFalse[] questionBank = new TrueFalse[]{
             new TrueFalse(R.string.question_oceans, true),
@@ -54,9 +57,9 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        questionTextView = (TextView)findViewById(R.id.question_text_view);
+        questionTextView = (TextView) findViewById(R.id.question_text_view);
 
-        trueButton = (Button)findViewById(R.id.true_button);
+        trueButton = (Button) findViewById(R.id.true_button);
         trueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,18 +67,52 @@ public class MainActivity extends Activity {
             }
         });
 
-        falseButton = (Button)findViewById(R.id.false_button);
+        falseButton = (Button) findViewById(R.id.false_button);
         falseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 checkAnswer(false);
             }
         });
-        nextButton = (Button)findViewById(R.id.next_button);
+
+        nextButton = (ImageButton) findViewById(R.id.next_button);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentIndex = (currentIndex + 1) % questionBank.length;
+                if (currentIndex == questionBank.length - 1) {
+                    currentIndex = 0;
+                } else {
+                    currentIndex = currentIndex + 1;
+                }
+
+                updateQuestion();
+            }
+        });
+
+        prevButton = (ImageButton) findViewById(R.id.prev_button);
+        prevButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentIndex == 0) {
+                    currentIndex = questionBank.length - 1;
+                } else {
+                    currentIndex = currentIndex - 1;
+                }
+
+                updateQuestion();
+            }
+        });
+
+        nextQuestion = (TextView) findViewById(R.id.question_text_view);
+        nextQuestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentIndex == questionBank.length - 1) {
+                    currentIndex = 0;
+                } else {
+                    currentIndex = currentIndex + 1;
+                }
+
                 updateQuestion();
             }
         });
