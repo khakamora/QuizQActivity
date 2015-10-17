@@ -1,6 +1,7 @@
 package home.com.f.quizactivity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -27,6 +28,9 @@ public class MainActivity extends Activity {
     private TextView questionTextView;
     private TextView nextQuestion;
     private ImageButton prevButton;
+    private Button cheatButton;
+    private Boolean isCheater;
+
 
     private TrueFalse[] questionBank = new TrueFalse[]{
             new TrueFalse(R.string.question_oceans, true),
@@ -38,32 +42,42 @@ public class MainActivity extends Activity {
 
     private int currentIndex = 0;
 
-    private void updateQuestion(){
+    @Override
+    protected void onActivityResult(int RequestCode, int ResultCode, Intent data) {
+        if (data == null) {
+            return;
+        }
+        isCheater = data.getBooleanExtra(CheatActivity.EXTRA_ANSWER_SHOWN, false);
+    }
+
+    private void updateQuestion() {
         int question = questionBank[currentIndex].getQuestion();
         questionTextView.setText(question);
     }
 
-    private void checkAnswer(boolean userPressedTrue){
+    private void checkAnswer(boolean userPressedTrue) {
         boolean answerIsTrue = questionBank[currentIndex].isTrueQuestion();
 
         int messageResId = 0;
 
-        if(userPressedTrue == answerIsTrue){
-            messageResId = R.string.correct_toast;
+        if (isCheater) {
+            messageResId = R.string.judgment_toast;
         } else {
-            messageResId = R.string.incorrect_toast;
+            if (userPressedTrue == answerIsTrue) {
+                messageResId = R.string.correct_toast;
+            } else {
+                messageResId = R.string.incorrect_toast;
+            }
         }
-
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate(Bundle) called");
         setContentView(R.layout.activity_main);
 
-        if (savedInstanceState != null){
+        if (savedInstanceState != null) {
             currentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
         }
 
@@ -94,7 +108,7 @@ public class MainActivity extends Activity {
                 } else {
                     currentIndex = currentIndex + 1;
                 }
-
+                isCheater = false;
                 updateQuestion();
             }
         });
@@ -108,7 +122,7 @@ public class MainActivity extends Activity {
                 } else {
                     currentIndex = currentIndex - 1;
                 }
-
+                isCheater = false;
                 updateQuestion();
             }
         });
@@ -122,8 +136,19 @@ public class MainActivity extends Activity {
                 } else {
                     currentIndex = currentIndex + 1;
                 }
-
+                isCheater = false;
                 updateQuestion();
+            }
+        });
+
+        cheatButton = (Button) findViewById(R.id.cheat_button);
+        cheatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, CheatActivity.class);
+                boolean answerIsTrue = questionBank[currentIndex].isTrueQuestion();
+                i.putExtra(CheatActivity.EXTRA_ANSWER_IS_TRUE, answerIsTrue);
+                startActivityForResult(i, 0);
             }
         });
 
@@ -134,7 +159,6 @@ public class MainActivity extends Activity {
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
-        Log.i(TAG, "onSaveInstanceState");
         savedInstanceState.putInt(KEY_INDEX, currentIndex);
     }
 

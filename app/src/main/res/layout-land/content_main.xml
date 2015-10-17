@@ -45,6 +45,15 @@
             android:layout_toLeftOf="@+id/false_button"
             android:layout_toStartOf="@+id/false_button" />
 
+        <Button
+            android:id="@+id/cheat_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:text="@string/cheat_button"
+            android:layout_below="@+id/true_button"
+            android:layout_toLeftOf="@+id/prev_button"/>
+
         <ImageButton
             android:id="@+id/next_button"
             android:layout_width="wrap_content"
