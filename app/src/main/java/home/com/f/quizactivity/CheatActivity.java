@@ -27,14 +27,21 @@ public class CheatActivity extends Activity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cheat);
 
-        if (savedInstanceState == null){
-        setAnswerShownResult(false);
+  /*      if (savedInstanceState != null){
+            setAnswerShownResult(true);
+        }*/
 
-        answerIsTrue = getIntent().getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false);
+
+        if (savedInstanceState != null){
+            setAnswerShownResult(answerIsTrue);
+        }
+
+            setAnswerShownResult(false);
+            answerIsTrue = getIntent().getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false);
 
         answerTextView = (TextView) findViewById(R.id.answerTextView);
 
@@ -48,16 +55,19 @@ public class CheatActivity extends Activity {
                 } else {
                     answerTextView.setText(R.string.false_button);
                 }
-                setAnswerShownResult(true);
+                answerIsTrue = true;
+                setAnswerShownResult(answerIsTrue);
+
             }
 
-        });}else {setAnswerShownResult(true);}
+        });
+
     }
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putBoolean(KEY_INDEX, true);
+        savedInstanceState.putBoolean(KEY_INDEX, answerIsTrue);
         //       savedInstanceState.putInt(KEY_INDEX, currentIndex);
     }
 }

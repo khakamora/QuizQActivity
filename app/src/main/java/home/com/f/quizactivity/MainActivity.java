@@ -56,6 +56,7 @@ public class MainActivity extends Activity {
     }
 
     private void checkAnswer(boolean userPressedTrue) {
+
         boolean answerIsTrue = questionBank[currentIndex].isTrueQuestion();
 
         int messageResId = 0;
