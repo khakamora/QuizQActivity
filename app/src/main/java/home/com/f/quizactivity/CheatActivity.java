@@ -17,6 +17,7 @@ public class CheatActivity extends Activity {
     private static final String KEY_INDEX = "index";
 
     private Boolean answerIsTrue;
+    private Boolean answerIsTrue1;
     private TextView answerTextView;
     private Button showAnswer;
 
@@ -31,13 +32,9 @@ public class CheatActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cheat);
 
-  /*      if (savedInstanceState != null){
-            setAnswerShownResult(true);
-        }*/
-
-
         if (savedInstanceState != null){
-            setAnswerShownResult(answerIsTrue);
+            answerIsTrue1 = savedInstanceState.getBoolean(KEY_INDEX, false);
+            setAnswerShownResult(answerIsTrue1);
         }
 
             setAnswerShownResult(false);
@@ -68,6 +65,5 @@ public class CheatActivity extends Activity {
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putBoolean(KEY_INDEX, answerIsTrue);
-        //       savedInstanceState.putInt(KEY_INDEX, currentIndex);
     }
 }
