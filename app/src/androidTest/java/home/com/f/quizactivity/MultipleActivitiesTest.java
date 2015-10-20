@@ -49,51 +49,36 @@ import java.util.Collection;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class MultipleActivitiesTest extends ActivityInstrumentationTestCase2 {
-
-    private  Activity currentActivity;
+public class MultipleActivitiesTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
     public MultipleActivitiesTest() {
         super(MainActivity.class);
     }
 
-    public Activity getActivityInstance() {
-        getInstrumentation().runOnMainSync(new Runnable() {
-            public void run() {
-                Collection<Activity> resumedActivities = ActivityLifecycleMonitorRegistry.getInstance().getActivitiesInStage(Stage.RESUMED);
-                for (Activity act : resumedActivities) {
-                    Log.d("Your current activity: ", act.getClass().getName());
-                    currentActivity = act;
-                    break;
-                }
-            }
-        });
+    @Rule
+    public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(
+            MainActivity.class);
 
-        return currentActivity;
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
+        getActivity();
     }
-
-    Activity getCurrentActivity() throws Throwable {
-        getInstrumentation().waitForIdleSync();
-        final Activity[] activity = new Activity[1];
-        runTestOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                java.util.Collection<Activity> activites = ActivityLifecycleMonitorRegistry.getInstance().getActivitiesInStage(Stage.RESUMED);
-                activity[0] = Iterables.getOnlyElement(activites);
-            }
-        });
-        return activity[0];
-    }
-
 
     @Test
-    public void checkIsCheater() {
-
-        Button b = (Button)currentActivity.findViewById(R.id.cheat_button);
-
-        //Press the button.
-        onView(withId(b)).perform(click());
-
-
+    public void testEnterName() throws Exception {
+        onView(withId(R.id.cheat_button)).perform(click());
+        onView(withId(R.id.showAnswerButton)).perform(click());
+        onView(withId(R.id.answerTextView)).check(matches(withText("True")));
     }
+
+
+/*
+    @Test
+    public void checkIsCheater() {
+        //Press the button.
+        onView(with).perform(click());
+
+
+    }*/
 }

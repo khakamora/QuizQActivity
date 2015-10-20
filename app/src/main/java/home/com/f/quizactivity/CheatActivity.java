@@ -32,13 +32,13 @@ public class CheatActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cheat);
 
-        if (savedInstanceState != null){
+        if (savedInstanceState != null) {
             answerIsTrue1 = savedInstanceState.getBoolean(KEY_INDEX, false);
             setAnswerShownResult(answerIsTrue1);
         }
 
-            setAnswerShownResult(false);
-            answerIsTrue = getIntent().getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false);
+        //      setAnswerShownResult(false);
+        answerIsTrue = getIntent().getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false);
 
         answerTextView = (TextView) findViewById(R.id.answerTextView);
 
