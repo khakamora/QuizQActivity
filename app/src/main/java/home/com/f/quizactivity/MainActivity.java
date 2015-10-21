@@ -80,6 +80,7 @@ public class MainActivity extends Activity {
 
         if (savedInstanceState != null) {
             currentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
+            isCheater = savedInstanceState.getBoolean(KEY_INDEX, isCheater);
         }
 
         questionTextView = (TextView) findViewById(R.id.question_text_view);
@@ -161,6 +162,7 @@ public class MainActivity extends Activity {
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putInt(KEY_INDEX, currentIndex);
+        savedInstanceState.putBoolean(KEY_INDEX, isCheater);
     }
 
     @Override
