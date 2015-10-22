@@ -66,7 +66,7 @@ public class MultipleActivitiesTest extends ActivityInstrumentationTestCase2<Mai
     }
 
     @Test
-    public void testEnterName() throws Exception {
+    public void testCheckingAnswer() throws Exception {
         onView(withId(R.id.cheat_button)).perform(click());
         onView(withId(R.id.showAnswerButton)).perform(click());
         onView(withId(R.id.answerTextView)).check(matches(withText("True")));
