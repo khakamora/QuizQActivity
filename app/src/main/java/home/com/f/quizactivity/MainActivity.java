@@ -78,6 +78,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        isCheater = false;
+
         if (savedInstanceState != null) {
             currentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
             isCheater = savedInstanceState.getBoolean(KEY_INDEX, isCheater);
