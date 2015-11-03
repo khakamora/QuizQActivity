@@ -30,6 +30,7 @@ public class MainActivity extends Activity {
     private ImageButton prevButton;
     private Button cheatButton;
     private Boolean isCheater;
+    int[] indexCheater = new int[5];
 
 
     private TrueFalse[] questionBank = new TrueFalse[]{
