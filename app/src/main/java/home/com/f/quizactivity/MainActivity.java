@@ -21,6 +21,8 @@ public class MainActivity extends Activity {
     private static final String TAG = "QuizActivity";
 
     private static final String KEY_INDEX = "index";
+    private static final String KEY_CHEATER = "cheater";
+    private static final String KEY_ARRAY_CHEATER = "array";
 
     private Button trueButton;
     private Button falseButton;
@@ -30,7 +32,7 @@ public class MainActivity extends Activity {
     private ImageButton prevButton;
     private Button cheatButton;
     private Boolean isCheater;
-    int[] indexCheater = new int[5];
+
 
 
     private TrueFalse[] questionBank = new TrueFalse[]{
@@ -83,7 +85,7 @@ public class MainActivity extends Activity {
 
         if (savedInstanceState != null) {
             currentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
-            isCheater = savedInstanceState.getBoolean(KEY_INDEX, isCheater);
+            isCheater = savedInstanceState.getBoolean(KEY_CHEATER, isCheater);
         }
 
         questionTextView = (TextView) findViewById(R.id.question_text_view);
@@ -152,6 +154,7 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this, CheatActivity.class);
                 boolean answerIsTrue = questionBank[currentIndex].isTrueQuestion();
+                i.putExtra(CheatActivity.KEY_INDEX_ARRAY_CHEATER, currentIndex);
                 i.putExtra(CheatActivity.EXTRA_ANSWER_IS_TRUE, answerIsTrue);
                 startActivityForResult(i, 0);
             }
@@ -165,7 +168,7 @@ public class MainActivity extends Activity {
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putInt(KEY_INDEX, currentIndex);
-        savedInstanceState.putBoolean(KEY_INDEX, isCheater);
+        savedInstanceState.putBoolean(KEY_CHEATER, isCheater);
     }
 
     @Override
