@@ -16,6 +16,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class MainActivity extends Activity {
 
     private static final String TAG = "QuizActivity";
@@ -33,7 +35,10 @@ public class MainActivity extends Activity {
     private Button cheatButton;
     private Boolean isCheater;
 
+    private int cheaterIndex = 0;
 
+ //   ArrayList bankOfCheater = new ArrayList();
+    int[] bankOfCheater = new int [5];
 
     private TrueFalse[] questionBank = new TrueFalse[]{
             new TrueFalse(R.string.question_oceans, true),
@@ -51,6 +56,8 @@ public class MainActivity extends Activity {
             return;
         }
         isCheater = data.getBooleanExtra(CheatActivity.EXTRA_ANSWER_SHOWN, false);
+        cheaterIndex = data.getIntExtra(CheatActivity.KEY_INDEX_ARRAY_CHEATER, 0);
+        bankOfCheater[cheaterIndex] = 1;
     }
 
     private void updateQuestion() {
@@ -64,7 +71,7 @@ public class MainActivity extends Activity {
 
         int messageResId = 0;
 
-        if (isCheater) {
+        if (bankOfCheater[currentIndex] == 1 | isCheater) {
             messageResId = R.string.judgment_toast;
         } else {
             if (userPressedTrue == answerIsTrue) {
@@ -73,6 +80,7 @@ public class MainActivity extends Activity {
                 messageResId = R.string.incorrect_toast;
             }
         }
+
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
     }
 
@@ -86,6 +94,7 @@ public class MainActivity extends Activity {
         if (savedInstanceState != null) {
             currentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
             isCheater = savedInstanceState.getBoolean(KEY_CHEATER, isCheater);
+            bankOfCheater = savedInstanceState.getIntArray(KEY_ARRAY_CHEATER);
         }
 
         questionTextView = (TextView) findViewById(R.id.question_text_view);
@@ -169,6 +178,7 @@ public class MainActivity extends Activity {
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putInt(KEY_INDEX, currentIndex);
         savedInstanceState.putBoolean(KEY_CHEATER, isCheater);
+        savedInstanceState.putIntArray(KEY_ARRAY_CHEATER, bankOfCheater);
     }
 
     @Override

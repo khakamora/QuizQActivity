@@ -15,20 +15,20 @@ public class CheatActivity extends Activity {
     public static final String EXTRA_ANSWER_IS_TRUE = "home.com.f.quizactivity.answer_is_true";
     public static final String EXTRA_ANSWER_SHOWN = "home.com.f.quizactivity.answer_shown";
     private static final String KEY_INDEX = "index";
-    public static final String KEY_INDEX_ARRAY_CHEATER = "array";
+    public static final String KEY_INDEX_ARRAY_CHEATER = "cheaterindex";
 
     private Boolean answerIsTrue;
-    private Boolean answerIsTrue1;
+    private Boolean answerIsTrueCheat;
     private TextView answerTextView;
     private Button showAnswer;
-    int[] indexCheater = new int[5];
+
     int currentIndex;
 
 
     private void setAnswerShownResult(Boolean isAnswerShown) {
         Intent data = new Intent();
         data.putExtra(EXTRA_ANSWER_SHOWN, isAnswerShown);
-        data.putExtra(KEY_INDEX_ARRAY_CHEATER, indexCheater[currentIndex]);
+        data.putExtra(KEY_INDEX_ARRAY_CHEATER, currentIndex);
         setResult(RESULT_OK, data);
     }
 
@@ -38,8 +38,8 @@ public class CheatActivity extends Activity {
         setContentView(R.layout.activity_cheat);
 
         if (savedInstanceState != null) {
-            answerIsTrue1 = savedInstanceState.getBoolean(KEY_INDEX, false);
-            setAnswerShownResult(answerIsTrue1);
+            answerIsTrueCheat = savedInstanceState.getBoolean(KEY_INDEX, false);
+            setAnswerShownResult(answerIsTrueCheat);
         }
 
         answerIsTrue = getIntent().getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false);
@@ -58,7 +58,6 @@ public class CheatActivity extends Activity {
                     answerTextView.setText(R.string.false_button);
                 }
                 answerIsTrue = true;
-                indexCheater[currentIndex] = 13;
                 setAnswerShownResult(answerIsTrue);
 
             }
