@@ -2,6 +2,7 @@ package home.com.f.quizactivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -34,6 +35,7 @@ public class MainActivity extends Activity {
     private ImageButton prevButton;
     private Button cheatButton;
     private Boolean isCheater;
+    private TextView api_level;
 
     private int cheaterIndex = 0;
 
@@ -96,6 +98,10 @@ public class MainActivity extends Activity {
             isCheater = savedInstanceState.getBoolean(KEY_CHEATER, isCheater);
             bankOfCheater = savedInstanceState.getIntArray(KEY_ARRAY_CHEATER);
         }
+
+        api_level = (TextView) findViewById(R.id.api_level);
+        int ap = Build.VERSION.SDK_INT;
+        api_level.setText(ap);
 
         questionTextView = (TextView) findViewById(R.id.question_text_view);
 
