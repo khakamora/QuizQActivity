@@ -99,10 +99,6 @@ public class MainActivity extends Activity {
             bankOfCheater = savedInstanceState.getIntArray(KEY_ARRAY_CHEATER);
         }
 
-        api_level = (TextView) findViewById(R.id.api_level);
-        int ap = Build.VERSION.SDK_INT;
-        api_level.setText(ap);
-
         questionTextView = (TextView) findViewById(R.id.question_text_view);
 
         trueButton = (Button) findViewById(R.id.true_button);
